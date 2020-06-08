@@ -1,0 +1,121 @@
+<div class='panel panel-primary'>  
+    <div class='panel-heading'> User Management </div>  
+    <div class='panel-body'>  
+        <div class='table-responsive'>  
+            <div style="padding-bottom:10px"><button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add</button></div> 
+            <form>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="searchString"
+                    placeholder="Type to search..."
+                    [(ngModel)]="searchString"
+                  />
+                </div>
+              </div>
+            </form> 
+            <div class="alert alert-info" role="alert" *ngIf="indLoading"><img src="../../images/loading.gif" width="32" height="32" /> Loading...</div>  
+            <div *ngIf='users && users.length==0' class="alert alert-info" role="alert">No record found!</div>  
+            <table class='table table-striped' *ngIf='users && users.length'>  
+                <thead>  
+                    <tr>  
+                        <th>Name</th>  
+                        <th>Email</th>  
+                        <th>Role</th>  
+                        <th>Action</th>  
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    <tr *ngFor="let user of users | filter : 'name' : searchString; let i = index">  
+                        <td>{{user.name}}</td>  
+                        <td>{{user.email}}</td>  
+                        <td>{{user.role}}</td>  
+                        <td> <button title="Edit" class="btn btn-primary" data-toggle="modal" data-target="#editModal" (click)="editUser(user._id)">Edit</button> <button title="Delete" class="btn btn-danger" (click)="deleteUser(user._id)">Delete</button> </td>  
+                    </tr>  
+                </tbody>  
+            </table>  
+            <div> </div>  
+        </div>  
+        <div *ngIf="msg" role="alert" class="alert alert-info alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <span class="sr-only">Error:</span> {{msg}} </div>  
+    </div>  
+</div> 
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Employee</h4>
+        </div>
+        <div class="modal-body">
+            <form name="form" (ngSubmit)="f.form.valid && addUser()" #f="ngForm" novalidate>
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="model.name" #name="ngModel" required />
+                            <div *ngIf="f.submitted && !name.valid" class="help-block">Name is required</div>
+                        </div>
+                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+                            <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+                        </div>
+                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+                        </div>
+                    <div class="form-group">
+                        <button  type="submit" (click)='addUser()' data-dismiss="modal" class="btn btn-primary btn-block">Add</button>
+                    </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="editModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add Employee</h4>
+            </div>
+            <div class="modal-body">
+                    <form name="form" (ngSubmit)="f.form.valid && updateUser()" #f="ngForm" novalidate>
+                            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" name="name" [(ngModel)]="user.name" #name="ngModel" required />
+                                    <div *ngIf="f.submitted && !name.valid" class="help-block">Name is required</div>
+                                </div>
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" name="email" [(ngModel)]="user.email" #email="ngModel" required />
+                                    <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+                                </div>
+                            <div class="form-group">
+                                <button  type="submit" (click)='updateUser()' data-dismiss="modal" class="btn btn-primary btn-block">Update</button>
+                            </div>
+                    </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+

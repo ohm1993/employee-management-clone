@@ -1,0 +1,16 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">Employee Management</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li *ngIf="auth.isAdmin() && auth.isLoggedIn()"><a routerLink="/home" routerLinkActive="active-link">Home</a></li>
+      <li *ngIf="auth.isAdmin() && auth.isLoggedIn() || !auth.isAdmin() && auth.isLoggedIn()"><a routerLink="/profile" routerLinkActive="active-link">Profile</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li  *ngIf="!auth.isLoggedIn()"><a routerLink="/signup" routerLinkActive="active-link"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li  *ngIf="!auth.isLoggedIn()"><a routerLink="/login" routerLinkActive="active-link"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li  *ngIf="auth.isLoggedIn()" (click)="logout()"><a routerLinkActive="active-link"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+    </ul>
+  </div>
+</nav>
