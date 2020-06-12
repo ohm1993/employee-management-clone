@@ -10,21 +10,12 @@ export class UserService {
 
     getAll() {
         const user = JSON.parse(localStorage.getItem('currentUser'));
-        console.log("user local storage value is",user);
-        //const currentUser = JSON.parse(user._body);
-        // let headers = new HttpHeaders;
-        // headers.append('Content-Type', 'application/json');
-        // headers.append('x-auth-header',user.token)
-        // const httpOptions = {
-        //     headers: headers
-        //     };
         const httpOptions = {
             headers: new HttpHeaders({
               'Content-Type':  'application/json',
               'Authorization': user.token
             })
           };
-        //let options = new RequestOptions({headers: headers});
         return this.http.get(appConfig.apiUrl + '/users', httpOptions);
     }
 
@@ -36,14 +27,6 @@ export class UserService {
               'Authorization': user.token
             })
           };
-        //const currentUser = JSON.parse(user._body);
-        // let headers = new HttpHeaders;
-        // headers.append('Content-Type', 'application/json');
-        // headers.append('x-auth-header',currentUser.token);
-        // const httpOptions = {
-        //     headers: headers
-        //     };
-        //let options = new RequestOptions({headers: headers});
         return this.http.get(appConfig.apiUrl + '/users/' + _id, httpOptions);
     }
 
@@ -53,32 +36,35 @@ export class UserService {
 
     sendMail(name: string){
         const user = JSON.parse(localStorage.getItem('currentUser'));
-        const currentUser = JSON.parse(user._body);
-        let headers = new HttpHeaders;
+        //const currentUser = JSON.parse(user._body);
+        //let headers = new HttpHeaders;
         var obj = {};
         obj['opname'] = name;
-        obj['email'] = currentUser.email;
-        headers.append('Content-Type', 'application/json');
-        headers.append('x-auth-header',currentUser.token);
+        obj['email'] = user.email;
         const httpOptions = {
-            headers: headers
-            };
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              'Authorization': user.token
+            })
+        };
+        // headers.append('Content-Type', 'application/json');
+        // headers.append('x-auth-header',currentUser.token);
+        // const httpOptions = {
+        //     headers: headers
+        //     };
         //let options = new RequestOptions({headers: headers});
         return this.http.post(appConfig.apiUrl + '/users/sendemail', obj, httpOptions); 
     }
 
     update(user: User) {
         const user1 = JSON.parse(localStorage.getItem('currentUser'));
-        const currentUser = JSON.parse(user1._body);
-        let headers = new HttpHeaders;
-        headers.append('Content-Type', 'application/json');
-        headers.append('x-auth-header',currentUser.token);
         const httpOptions = {
-            headers: headers
-            };
-        //let options = new RequestOptions({headers: headers});
-        return this.http.put(appConfig.apiUrl + '/users/' + user._id, user, httpOptions);
-        // return this.http.put(appConfig.apiUrl + '/users/' + user._id, user, httpOptions).map(this.extractData);
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              'Authorization': user1.token
+            })
+          };
+        return this.http.put(appConfig.apiUrl + '/users/' + user1._id, user1, httpOptions);
     }
 
     delete(_id: string) {

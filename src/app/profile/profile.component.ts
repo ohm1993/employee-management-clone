@@ -8,13 +8,14 @@ import { AlertService, UserService } from '../_services/index';
 })
 export class ProfileComponent implements OnInit {
   model: any = {};
-  public user = {
-    _id: '',
-    name: '',
-    email: '',
-    password : '',
-    role: ''
-    }
+  user:any = {};
+  // public user = {
+  //   _id: '',
+  //   name: '',
+  //   email: '',
+  //   password : '',
+  //   role: ''
+  //   }
   constructor(
     private userService: UserService,
     private alertService: AlertService
@@ -26,13 +27,11 @@ export class ProfileComponent implements OnInit {
 
   loadProfileData(){
     const user = JSON.parse(localStorage.getItem('currentUser'));
-    // console.log("profile data user value is",user);
-    // //const currentUser = JSON.parse(user._body);
     this.userService.getById(user._id)
         .subscribe(
           user => {
-            console.log("profile data is",user);
-            //this.user = user;
+            console.log("loadProfileData user value is",user);
+            this.user = user;
           },
           error => {
               this.alertService.error(error);
@@ -40,7 +39,7 @@ export class ProfileComponent implements OnInit {
   } 
 
   updateUser() {
-    console.log("this user value is",this.user);
+    console.log("updateUser user value is",this.user);
     this.userService.update(this.user)
       .subscribe(
           data => {
