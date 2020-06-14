@@ -42,8 +42,6 @@ export class AuthenticationService {
     isAdmin() {
         const user = JSON.parse(localStorage.getItem('currentUser'));
         if (user) {
-            console.log("user value is",user.role);
-            ///const currentUser = JSON.parse(user._body);
             if(user.role == 'admin'){
                 return true;
             }else{

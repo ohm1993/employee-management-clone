@@ -11,15 +11,8 @@ export class HomeComponent implements OnInit {
   users : any = [];
   searchString: string;
   model: any = {};
-
-  public user = {
-    _id: '',
-    name: '',
-    email: '',
-    password : '',
-    role: ''
-    }
-
+  user:any = {};
+  
   constructor(
     private userService: UserService,
     private alertService: AlertService
@@ -52,8 +45,8 @@ export class HomeComponent implements OnInit {
       .subscribe(
           user => {
             const opname = "edited";
-            //this.user = user;
-            this.sendEmail(opname);
+            this.user = user;
+            //this.sendEmail(opname);
           },
           error => {
               this.alertService.error(error);
@@ -67,7 +60,7 @@ export class HomeComponent implements OnInit {
           const opname = "deleted";
           this.alertService.success('Deleted successfully', true);
           this.loadLists();
-          this.sendEmail(opname);
+          //this.sendEmail(opname);
         },
         error => {
             this.alertService.error(error);
@@ -81,7 +74,7 @@ export class HomeComponent implements OnInit {
             const opname = "add";
             this.alertService.success('Registration successful', true);
             this.loadLists();
-            this.sendEmail(opname);
+           // this.sendEmail(opname);
           },
           error => {
               this.alertService.error(error);
@@ -94,9 +87,8 @@ export class HomeComponent implements OnInit {
           data => {
             const opname = "update";
             this.alertService.success('Employee Updated successful', true);
-            this.sendEmail(opname);
+            //this.sendEmail(opname);
             this.loadLists();
-           
           },
           error => {
              console.log("error is",error);

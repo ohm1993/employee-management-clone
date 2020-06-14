@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const role = require('./role');
 var secret = 'ohm';
 module.exports = function (req, res, next) {
-    console.log("req value is",req);
     const token = req.header('authorization'); if (!token) return res.status(401).send('Access Denied: No Token Provided!');
     try {
         const decoded = jwt.verify(token, secret); if (role[decoded.role].find(function (url) { return url == req.baseUrl })) {

@@ -9,13 +9,6 @@ import { AlertService, UserService } from '../_services/index';
 export class ProfileComponent implements OnInit {
   model: any = {};
   user:any = {};
-  // public user = {
-  //   _id: '',
-  //   name: '',
-  //   email: '',
-  //   password : '',
-  //   role: ''
-  //   }
   constructor(
     private userService: UserService,
     private alertService: AlertService
@@ -30,7 +23,6 @@ export class ProfileComponent implements OnInit {
     this.userService.getById(user._id)
         .subscribe(
           user => {
-            console.log("loadProfileData user value is",user);
             this.user = user;
           },
           error => {
@@ -39,7 +31,6 @@ export class ProfileComponent implements OnInit {
   } 
 
   updateUser() {
-    console.log("updateUser user value is",this.user);
     this.userService.update(this.user)
       .subscribe(
           data => {
